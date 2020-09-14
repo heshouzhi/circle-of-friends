@@ -169,7 +169,8 @@ header {
 #list li {
     line-height: 1.5;
     margin-top: 15px;
-    padding-bottom: 15px
+    padding-bottom: 15px;
+    border-bottom: 0.5px solid #E7E7E7;
 }
 
 #share a:nth-child(2),.ads,.po-avt {
@@ -204,7 +205,7 @@ header {
 }
 
 .po-date-day {
-    font-family: SF Pro Display;
+    /*font-family: SF Pro Display;*/
     font-style: normal;
     font-weight: 500;
     font-size: 28px;
@@ -213,7 +214,7 @@ header {
 }
 
 .po-date-month {
-    font-family: SF Pro Display;
+    /*font-family: SF Pro Display;*/
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -232,8 +233,8 @@ header {
 }
 
 .po-cmt {
-    padding-left: 83px;
-    padding-right: 8px;
+    padding-left: 73px;
+    padding-right: 18px;
     width: 100%;
     box-sizing: border-box
 }
@@ -272,7 +273,7 @@ header {
 }
 
 .post-word {
-    font-family: .PingFang SC;
+    /*font-family: .PingFang SC;*/
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
