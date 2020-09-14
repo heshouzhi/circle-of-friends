@@ -127,13 +127,30 @@
             bottom: 0;
             z-index: -1
         }
+        .post .play-control {
+            position: absolute;
+            width: 40px;
+            top: 50%;
+            padding: 0;
+            margin-top: -20px;
+            left: 50%;
+            margin-left: -20px;
+        }
+        .video1 {
+            position: fixed;
+            width: 100%;
+        }
 
     </style>
 
 </head>
 <body>
 <div>
-    <div class="back-position"></div>
+    <video class="video1" id="video1">
+        <source src="" type="video/mp4">
+        <source src="" type="video/ogg">
+        您的浏览器不支持 HTML5 video 标签。
+    </video>
     <header>
         <img id="bg" src="images/bg.jpg">
         <p id="user-name" class="data-name">捷克～</p>
@@ -160,7 +177,7 @@
             time: "2020/09/14 13:14",
             resources: ["01.jpg", "02.jpg", "03.jpg", "04.jpg", "05.jpg", "01.jpg"],
             resources_type: "img",
-            text: "大家好，听说国内冻成狗🐶？我这边还挺热，那一年这兄弟三人发誓一定要出人头地，以后有福同享有难同当，如今：大哥只手遮天万人之上，二哥黄金万两富甲一方，三弟淡泊名利为人低调"
+            text: "收取闲心冷处浓，</br>舞裙犹忆柘枝红。</br>谁家刻烛待春风，</br>竹叶樽空翻采燕。</br>九枝灯灺颤金虫，</br>风流端合倚天公。"
         },
         {
             time: "2020/09/14 14:37",
@@ -170,8 +187,8 @@
         },
         {
             time: "2020/08/14 14:37",
-            resources: ["01.jpg"],
-            resources_type: "img",
+            resources: ["video.mp4"],
+            resources_type: "video",
             text: "大家好，听说国内冻成狗🐶？我这边还挺热，那一年这兄弟三人发誓一定要出人头地，以后有福同享有难同当，如今：大哥只手遮天万人之上，二哥黄金万两富甲一方，三弟淡泊名利为人低调"
         },
         {
@@ -203,6 +220,10 @@
                     
                 })
                 resources_nodes += "</div>"
+            } else {
+                var src = "images/"+ resources[0]
+                var style = "width: 60%;position: relative;"
+                resources_nodes += "<div style='"+style+"'><img data-src='"+src+"' class='play-control' src='images/play.png'><video onclick='play(this)' style='width: 100%;'><source src="+src+" type='video/mp4'></video></div>"
             }
         }
         text_node = "<div class='post'><p class='post-word'>"+text+"</p>"+resources_nodes+"</div>"
@@ -238,6 +259,10 @@
             ts = (parseInt(seconds)+"秒前").toString();
         }
         return ts;
+    }
+
+    function play(_this) {
+        console.log(_this)
     }
 
 
