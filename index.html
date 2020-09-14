@@ -187,9 +187,10 @@
             if(resources_type == "img") {
                 resources.forEach(function(item, index) {
                     var src = "images/"+ item
-                    var height = ($("body").width() -91)*26.87 + "px"
+                    var height = ($("body").width() -91)*0.2687 + "px"
                     var style = "width: 26.87%; height:"+height
                     resources_nodes += "<img class='list-img' src="+src+" style='"+style+"' data-preview-src="+src+" data-preview-group='"+i+"' />"
+                    
                 })
                 resources_nodes += "</div>"
             }

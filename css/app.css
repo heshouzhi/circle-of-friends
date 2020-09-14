@@ -251,8 +251,6 @@ header {
 .post img {
     padding: 10px 5px 0 0;
     display: block;
-    max-height: 130px;
-    max-width: 130px
 }
 
 #share a,.btn {
@@ -260,9 +258,6 @@ header {
 }
 
 .post .list-img {
-    width: 30%;
-    max-height: 80px;
-    max-width: 80px;
     padding-right: 5px;
     float: left;
     object-fit: cover
