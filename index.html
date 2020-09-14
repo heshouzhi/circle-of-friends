@@ -135,10 +135,16 @@
             margin-top: -20px;
             left: 50%;
             margin-left: -20px;
+            z-index: 9;
         }
-        .video1 {
+        #video-wrap {
             position: fixed;
             width: 100%;
+            top: 0;
+            bottom: 0;
+            z-index: 99;
+            background: #000;
+            display: none;
         }
 
     </style>
@@ -146,11 +152,10 @@
 </head>
 <body>
 <div>
-    <video class="video1" id="video1">
-        <source src="" type="video/mp4">
-        <source src="" type="video/ogg">
-        您的浏览器不支持 HTML5 video 标签。
-    </video>
+    <div class="back-position"></div>
+    <div id="video-wrap">
+
+    </div>
     <header>
         <img id="bg" src="images/bg.jpg">
         <p id="user-name" class="data-name">捷克～</p>
@@ -161,7 +166,6 @@
             <ul>
             </ul>
         </div>
-
     </div>
 </div>
 
@@ -223,7 +227,7 @@
             } else {
                 var src = "images/"+ resources[0]
                 var style = "width: 60%;position: relative;"
-                resources_nodes += "<div style='"+style+"'><img data-src='"+src+"' class='play-control' src='images/play.png'><video onclick='play(this)' style='width: 100%;'><source src="+src+" type='video/mp4'></video></div>"
+                resources_nodes += "<div style='"+style+"'><img onclick='playVideo(this)' data-videosrc='"+src+"' class='play-control' src='images/play.png'><video style='width: 100%;'><source src="+src+" type='video/mp4'></video></div>"
             }
         }
         text_node = "<div class='post'><p class='post-word'>"+text+"</p>"+resources_nodes+"</div>"
@@ -246,7 +250,6 @@
         var hour = Math.abs(parseInt((d_day - currentTime)/1000/3600));//计算小时
         var minutes = Math.abs(parseInt((d_day - currentTime)/1000/60));//计算分钟
         var seconds = Math.abs(parseInt((d_day - currentTime)/1000));//计算秒
-        console.log(day);
         if(day >= 2){
             ts = (parseInt(day)+"天前").toString();
         }else if(day > 0 && day < 2){
@@ -261,9 +264,34 @@
         return ts;
     }
 
-    function play(_this) {
-        console.log(_this)
+    function playVideo(_this) {
+        var src = $(_this).data('videosrc')
+        
+        var node = "<video class='video1' id='preview-video1' style='height:300px'><source src='"+src+"' type='video/mp4'><source src='"+src+"' type='video/ogg'>您的浏览器不支持 HTML5 video 标签。</video>"
+        $("#video-wrap").append(node)
+        var myVideo=document.getElementById("preview-video1");
+        var v_height = $("#preview-video1").height()
+        var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        var top = (h-v_height)/2
+        console.log('myDate', top)
+        $("#video-wrap").show()
+        $("#video-wrap .video1").css({ marginTop: top+"px", width: '100%' })
+        if (myVideo.paused) 
+          myVideo.play(); 
+        else 
+          myVideo.pause(); 
+
     }
+
+    $("#video-wrap").click(function() {
+        $(this).empty()
+        $(this).hide()
+    })
+    $("#preview-video1").click(function() {
+        $("#preview-video1").empty()
+        $("#preview-video1").hide()
+    })
+
 
 
     function doHandleMonth(myDate) {
