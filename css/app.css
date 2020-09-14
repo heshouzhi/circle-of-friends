@@ -113,7 +113,8 @@ html {
 }
 
 header {
-    position: relative
+    position: relative;
+    display: flex;
 }
 #main {
     background: #fff

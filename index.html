@@ -118,25 +118,34 @@
             display: flex;
             align-items: center;
         }
+        .back-position {
+            position: fixed;
+            background: #000;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1
+        }
 
     </style>
 
 </head>
 <body>
-<div style="margin:0 auto;display:none;">
-    <img class="data-avt" src="images/0.jpg">
-</div>
-<header>
-    <img id="bg" src="images/bg.jpg">
-    <p id="user-name" class="data-name">万贾斯汀</p>
-    <img id="avt" class="data-avt" src="images/0.jpg">
-</header>
-<div id="main">
-    <div id="list">
-        <ul>
-        </ul>
-    </div>
+<div>
+    <div class="back-position"></div>
+    <header>
+        <img id="bg" src="images/bg.jpg">
+        <p id="user-name" class="data-name">捷克～</p>
+        <img id="avt" class="data-avt" src="images/0.jpg">
+    </header>
+    <div id="main">
+        <div id="list">
+            <ul>
+            </ul>
+        </div>
 
+    </div>
 </div>
 
 <script src="js/mui.min.js"></script>
@@ -145,6 +154,7 @@
 <script src="js/jquery-3.4.1.min.js"></script>
 
 <script>
+    $("#bg").css("height", $("body").width()*0.65333+"px")
     var datas = [
         {
             time: "2020/09/14 13:14",
