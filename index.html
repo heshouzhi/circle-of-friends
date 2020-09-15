@@ -226,7 +226,7 @@
                 resources_nodes += "</div>"
             } else {
                 var src = "images/"+ resources[0]
-                var style = "width: 60%;position: relative;"
+                var style = "width: 60%;position: relative;margin-top: 10px"
                 resources_nodes += "<div style='"+style+"'><img onclick='playVideo(this)' data-videosrc='"+src+"' class='play-control' src='images/play.png'><video style='width: 100%;'><source src="+src+" type='video/mp4'></video></div>"
             }
         }
@@ -273,7 +273,6 @@
         var v_height = $("#preview-video1").height()
         var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
         var top = (h-v_height)/2
-        console.log('myDate', top)
         $("#video-wrap").show()
         $("#video-wrap .video1").css({ marginTop: top+"px", width: '100%' })
         if (myVideo.paused) 
@@ -295,9 +294,7 @@
 
 
     function doHandleMonth(myDate) {
-        console.log('myDate', myDate)
         var tMonth = myDate.getMonth();
-        console.log('tMonth', tMonth)
         var m = tMonth + 1;
         // if (m.toString().length == 1) {
         //     m = "0" + m;
