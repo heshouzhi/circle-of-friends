@@ -214,9 +214,12 @@
                 if(_res.code != 0) {
 
                 } else {
-                    if(_res.data.list.length<3) {
+                    if(_res.data.list.length==10) {
 
                         sessionStorage.setItem("flge", 1)
+                    }
+                    if(_res.data.list.length>0) {
+                        creatNode (_res.data.list)
                     }
                 }
             })
