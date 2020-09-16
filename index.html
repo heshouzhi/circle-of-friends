@@ -146,12 +146,16 @@
             background: #000;
             display: none;
         }
+        .scroll_page {
+            height: 100%;
+            overflow: scroll;
+        }
 
     </style>
 
 </head>
 <body>
-<div>
+<div id="scroll_page" class="scroll_page">
     <div class="back-position"></div>
     <div id="video-wrap">
 
@@ -175,68 +179,177 @@
 <script src="js/jquery-3.4.1.min.js"></script>
 
 <script>
-    $("#bg").css("height", $("body").width()*0.65333+"px")
-    var datas = [
-        {
-            time: "2020/09/14 13:14",
-            resources: ["01.jpg", "02.jpg", "03.jpg", "04.jpg", "05.jpg", "01.jpg"],
-            resources_type: "img",
-            text: "收取闲心冷处浓，</br>舞裙犹忆柘枝红。</br>谁家刻烛待春风，</br>竹叶樽空翻采燕。</br>九枝灯灺颤金虫，</br>风流端合倚天公。"
-        },
-        {
-            time: "2020/09/14 14:37",
-            resources: ["01.jpg", "02.jpg", "03.jpg", "04.jpg"],
-            resources_type: "img",
-            text: "大家好，听说国内冻成狗🐶？我这边还挺热，那一年这兄弟三人发誓一定要出人头地，以后有福同享有难同当，如今：大哥只手遮天万人之上，二哥黄金万两富甲一方，三弟淡泊名利为人低调"
-        },
-        {
-            time: "2020/08/14 14:37",
-            resources: ["video.mp4"],
-            resources_type: "video",
-            text: "大家好，听说国内冻成狗🐶？我这边还挺热，那一年这兄弟三人发誓一定要出人头地，以后有福同享有难同当，如今：大哥只手遮天万人之上，二哥黄金万两富甲一方，三弟淡泊名利为人低调"
-        },
-        {
-            time: "2020/07/14 10:37",
-            resources: ["01.jpg", "02.jpg", "03.jpg", "04.jpg", "05.jpg", "02.jpg","01.jpg", "02.jpg", "03.jpg"],
-            resources_type: "img",
-            text: "大家好，听说国内冻成狗🐶？我这边还挺热，那一年这兄弟三人发誓一定要出人头地，以后有福同享有难同当，如今：大哥只手遮天万人之上，二哥黄金万两富甲一方，三弟淡泊名利为人低调"
-        }
-    ]
-    
-    for (var i = 0; i < datas.length; i++) {
-        var time_text = setTime(datas[i].time)
-        var month = doHandleMonth(new Date(datas[i].time))
-        var day = new Date(datas[i].time).getDate()
-        var resources = datas[i].resources
-        var text = datas[i].text
-        var resources_type = datas[i].resources_type
-        var text_node = ""
-        var nodes = ""
-        var resources_nodes = "<div>"
-        if(resources && Array.isArray(resources)&&resources.length>0) {
-            
-            if(resources_type == "img") {
-                resources.forEach(function(item, index) {
-                    var src = "images/"+ item
-                    var height = ($("body").width() -91)*0.2687 + "px"
-                    var style = "width: 26.87%; height:"+height
-                    resources_nodes += "<img class='list-img' src="+src+" style='"+style+"' data-preview-src="+src+" data-preview-group='"+i+"' />"
+    sessionStorage.removeItem("flge")
+    var url = "https://dev.wininsales.com/Api/OpenApi/get_access_token"
+    var page = 0
+    window.a_flge = ''
+    function postFetch(url,body,callback){
+        fetch(url,{
+          method: 'POST',
+          mode: "cors",
+          body: body
+        }).then((res) => res.json()).then((res) => {
+          callback(res)
+        }).catch((err) => {
+          console.log(err)
+        })
+    }
+    function getToken(callback) {
+        var formdata = new FormData();
+        formdata.append("appid", "winsale87932s3s34xu");
+        formdata.append("appsecret", "5789sxwKR72fsxiexjiqeclo-fdxd");
+        postFetch(url, formdata, callback)
+    }
+
+    function getData () {
+        var _url = "https://dev.wininsales.com/Api/OpenApi/moment_list"
+        var _formdata = new FormData();
+        var name = "winsale87932s3s34xu_sales_token"
+        var access_token = getCookie(name);
+        _formdata.append("encrypt_id", "czo2OiI2NzQ1OTQiOw");
+        _formdata.append("pageno", page);
+        if(access_token) {         
+            _formdata.append("access_token", access_token);           
+            postFetch(_url, _formdata, function(_res) {
+                if(res.code != 0) {
+
+                } else {
+                    if(_res.data.list.length<3) {
+
+                        sessionStorage.setItem("flge", 1)
+                    }
+                }
+            })
+        } else {
+            getToken(function(res) {
+                if(res.code !=0) {
+
+                } else {
                     
-                })
-                resources_nodes += "</div>"
-            } else {
-                var src = "images/"+ resources[0]
-                var style = "width: 60%;position: relative;margin-top: 10px"
-                resources_nodes += "<div style='"+style+"'><img onclick='playVideo(this)' data-videosrc='"+src+"' class='play-control' src='images/play.png'><video style='width: 100%;'><source src="+src+" type='video/mp4'></video></div>"
-            }
+                    setCookie(name, res.access_token, 1.6*60*60)
+                     _formdata.append("access_token", res.access_token);   
+                    postFetch(_url, _formdata, function(_res) {
+                        if(_res.code == 0) {
+                            if(_res.data.list.length==3) {
+                                sessionStorage.setItem("flge", 1)
+                            } else {
+
+                            }
+                            if(_res.data.list.length>0) {
+                                creatNode (_res.data.list)
+                            }
+                            
+                        } else {
+
+                            
+                        }
+                        
+                    })
+                }
+                
+            })
         }
-        text_node = "<div class='post'><p class='post-word'>"+text+"</p>"+resources_nodes+"</div>"
-        nodes += "<li><div class='po-date-wrap'><span class='po-date-day'>"+day+"</span><span class='po-date-month'>"+month+"</span></div>"+ "\n"
-                +"<div class='po-cmt'><div class='po-hd'>"+text_node+"<p class='time'>"+time_text+"</p></div></div></li>"
-        $("#list ul").append(nodes)
+        
+    }
+
+
+    function getCookie (name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return '';
+    }
+
+    function setCookie(name,value,time) {  //传值为名，值，过期时间
+        if(time){ //如果有过期时间的话则执行这个条件
+
+            var oDate=new Date(); //获取当且的事件戳
+            
+            oDate.setTime(oDate.getTime() + time*1000); 
+            
+            
+            document.cookie=name+"="+value+"; path=/; expires="+oDate.toGMTString();//设置cookie
+        }
+
+    }
+
+    getData ()
+
+
+    $("#bg").css("height", $("body").width()*0.65333+"px")
+    
+    function creatNode (datas) {
+        console.log('datas', datas)
+        for (var i = 0; i < datas.length; i++) {
+            var time_text = setTime(datas[i].time)
+            var month = doHandleMonth(new Date(datas[i].time))
+            var day = new Date(datas[i].time).getDate()
+            var resources = datas[i].resources
+            var text = datas[i].content
+            var resources_type = datas[i].type
+            var text_node = ""
+            var nodes = ""
+            var resources_nodes = "<div>"
+            var last_id = ''
+            if(i == datas.length-1) {
+                last_id = "last_li"
+            }
+            if(resources && Array.isArray(resources)&&resources.length>0) {
+                
+                if(resources_type == "text") {
+                    resources.forEach(function(item, index) {
+                        var src = item.z_file
+                        var pre_src = item.b_file
+                        var height = ($("body").width() -91)*0.2687 + "px"
+                        var style = "width: 26.87%; height:"+height
+                        resources_nodes += "<img class='list-img' src="+src+" style='"+style+"' data-preview-src="+pre_src+" data-preview-group='"+page+"' />"
+                        
+                    })
+                    resources_nodes += "</div>"
+                } else if(resources_type == "video") {
+                    var src = resources[0].video_url
+                    var style = "width: 73.4%;position: relative;margin-top: 10px"
+                    resources_nodes += "<div style='"+style+"'><img onclick='playVideo(this)' data-videosrc='"+src+"' class='play-control' src='images/play.png'><video style='width: 100%;'><source src="+src+" type='video/mp4'></video></div>"
+                } else {
+                    var src = resources[0].url
+                    var title = resources[0].title
+                    var description = resources[0].description
+                    var icon = resources[0].icon
+                    var url = resources[0].url
+                    var style = "background: #F8F8F8; border-radius: 4px;padding: 6px 9px 6px 7px; width: 100%;position: relative;margin-top:10px; display: block"
+                    resources_nodes += "<div onclick='openUrl(this)' openhref='"+url+"' style='"+style+"'><div style='padding-right: 65px; width: 100%'><p style='font-size: 16px;line-height: 22px;color: #666666;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>"+title+"</p><p style='font-size: 14px;line-height: 20px;color: #BBBBBB;margin-top: 3px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;'>"+description+"</p></div><div style='position: absolute; right: 9px;top: 6px;'><img style='border-radius: 4px;background: #F0F0F0;width: 60px; height: 60px' src='"+icon+"' /></div></div>"
+                }
+            }
+            text_node = "<div class='post'><p class='post-word'>"+text+"</p>"+resources_nodes+"</div>"
+            nodes += "<li id='"+last_id+"'><div class='po-date-wrap'><span class='po-date-day'>"+day+"</span><span class='po-date-month'>"+month+"</span></div>"+ "\n"
+                    +"<div class='po-cmt'><div class='po-hd'>"+text_node+"</div><p class='time'>"+time_text+"</p></div></div></li>"
+            $("#list ul").append(nodes)
+        }
+    }
+
+    function openUrl(_this) {
+        var href= $(_this).attr('openhref')
+        window.open(href)
     }
     
     window.onload=function() {
+        var latoutNode = document.getElementById("scroll_page");
+        var nowtop = $(document).scrollTop() + $(window).height();
+        if (latoutNode) {
+            latoutNode.addEventListener("scroll", e => {
+                var more_top = $('#last_li').offset().top;
+                
+                if (more_top < $(window).height()) {
+                    if(sessionStorage.getItem("flge") == "1") {
+                        ++page
+                        getData ()
+                        sessionStorage.removeItem("flge")
+                    } 
+                    return true
+                }
+            });
+        }
         mui.previewImage();
         mui.plusReady(function() {})
     }

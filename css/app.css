@@ -91,7 +91,11 @@ input {
 html {
     background-color: #f8f8f8;
     font-family: Arial,sans-serif;
-    font-size: 10px
+    font-size: 10px;
+    height: 100%
+}
+body {
+    height: 100%
 }
 
 .cmt-wrap {
