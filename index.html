@@ -211,7 +211,7 @@
         if(access_token) {         
             _formdata.append("access_token", access_token);           
             postFetch(_url, _formdata, function(_res) {
-                if(res.code != 0) {
+                if(_res.code != 0) {
 
                 } else {
                     if(_res.data.list.length<3) {
