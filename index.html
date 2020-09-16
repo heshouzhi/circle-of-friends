@@ -230,7 +230,7 @@
                      _formdata.append("access_token", res.access_token);   
                     postFetch(_url, _formdata, function(_res) {
                         if(_res.code == 0) {
-                            if(_res.data.list.length==3) {
+                            if(_res.data.list.length==10) {
                                 sessionStorage.setItem("flge", 1)
                             } else {
 
@@ -277,7 +277,7 @@
     getData ()
 
 
-    $("#bg").css("height", $("body").width()*0.65333+"px")
+    $("#bg").css("height", $("body").width()*1.106+"px")
     
     function creatNode (datas) {
         console.log('datas', datas)
