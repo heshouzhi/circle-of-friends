@@ -211,9 +211,7 @@
         if(access_token) {         
             _formdata.append("access_token", access_token);           
             postFetch(_url, _formdata, function(_res) {
-                if(_res.code != 0) {
-
-                } else {
+                if(_res.code == 0) {
                     if(_res.data.list.length==10) {
 
                         sessionStorage.setItem("flge", 1)
@@ -221,6 +219,12 @@
                     if(_res.data.list.length>0) {
                         creatNode (_res.data.list)
                     }
+                    if(page == 0) {
+                        $("#avt").attr('src', _res.data.user_info.avatar)
+                        $("#user-name").html(_res.data.user_info.truename)
+                    }
+                } else {
+                    
                 }
             })
         } else {
@@ -240,6 +244,10 @@
                             }
                             if(_res.data.list.length>0) {
                                 creatNode (_res.data.list)
+                            }
+                            if(page == 0) {
+                                $("#avt").attr('src', _res.data.user_info.avatar)
+                                $("#user-name").html(_res.data.user_info.truename)
                             }
                             
                         } else {
@@ -280,7 +288,7 @@
     getData ()
 
 
-    $("#bg").css("height", $("body").width()*0.65333+"px")
+    $("#bg").css("height", $("body").width()*0.8341+"px")
     
     function creatNode (datas) {
         console.log('datas', datas)
