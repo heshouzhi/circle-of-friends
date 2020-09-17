@@ -363,7 +363,9 @@
         }
         mui.previewImage();
         mui.plusReady(function() {})
-    }
+        document.querySelector('body').addEventListener('touchstart', function (ev) {
+            event.preventDefault();
+        }
 
     function setTime(time){
         var currentTime = Date.parse(new Date());
